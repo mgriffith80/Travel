@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Document</title>
+    {% load static %}
+</head>
+<body>
+    {% if messages %}
+    <ul class="messages">    
+        {% for message in messages %}    
+            <li {% if message.tags %} class="{{ message.tags }} alert-danger"{% endif %}>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <nav class="navbar navbar-expand-md navbar-light bg-warning sticky-top"> 
+        <div class="container-fluid">
+            <img src="{% static 'images/images.png' %}" alt="logo" class="img-thumbnail">
+            <h1 class="font-weight-bold text-secondary text-center">Unforgettable Memories & Incredible Adventure</h1>
+        </div>
+    </nav> 
+    <nav class="navbar navbar-dark bg-secondary text-white">
+        <a class="navbar-brand">Change of Plans?  No Problem.  Update Your Trip Here {{user.first_name}} {{user.last_name}} !</a>
+        <div>
+            <a href="/main" class="btn btn-warning">Home</a>
+            <a href="/logout" class="btn btn-warning">Logout</a>
+        </div>
+    </nav>
+    <div class="jumbotron pt-10 bg-warning p-10 border border-warning">
+        <div class="align-items-center min-vh-100 d-flex justify-content-around">
+            <form method="post" action="/processUpdateTrip/{{trip.id}}">
+                {% csrf_token %}
+                <div class="form">
+                    <label for="destination" class="bg-secondary text-white">Destination:</label>
+                    <input type="text" name="destination" placeholder="{{trip.destination}}"/>
+                    <br/><br/>
+                    <label for="desc" class="bg-secondary text-white">Description:</label>
+                    <textarea class="form-control" name="desc" cols="50" rows="5" placeholder="{{trip.desc}}"></textarea>
+                    <br/><br/>
+                    <label for="travel_date_from" class="bg-secondary text-white">Travel Date from:</label>
+                    <input type="date" name="travel_date_from" placeholder="{{trip.travel_date_from}}"/>
+                    <label for="travel_date_to" class="bg-secondary text-white">Travel Date To:</label>
+                    <input type="date" name="travel_date_to" placeholder="{{trip.travel_date_to}}"/>
+                    <br/><br/>
+                    <input type="submit" value="Update Trip" class="btn btn-seconday btn-lg btn-block"/>
+                </div>
+        </form>
+    </div>
+</body>
+</html>

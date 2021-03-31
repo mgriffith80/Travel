@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <title>Document</title>
+    {% load static %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-md navbar-light bg-warning sticky-top"> 
+        <div class="container-fluid">
+            <img src="{% static 'images/images.png' %}" alt="logo" class="img-thumbnail">
+            <h1 class="font-weight-bold text-secondary text-center">Unforgettable Memories & Incredible Adventure</h1>
+        </div>
+    </nav> 
+    <nav class="navbar navbar-dark bg-secondary text-warning">
+        <a class="navbar-brand">DESTINATIONS {{user.first_name}} {{user.last_name}} !</a>
+        <div>
+            <a href="/main" class="btn btn-warning">Home</a>
+            <a href="/logout" class="btn btn-warning">Logout</a>
+        </div>
+    </nav>
+    <picture>
+        <img src="{% static 'images/cartagena.jpeg' %}" alt="city" class="img-fluid img-thumbnail">
+    </picture>
+    <div class="jumbotron pt-10 bg-warning p-10 border border-warning">
+        <div class="align-items-center min-vh-100 d-flex justify-content-around">
+            <ul class="listgroup">
+                <h1>{{this_trip.destination}}</h1>
+                <li>Planned By: {{this_trip.planned_by.first_name}} {{this_trip.planned_by.last_name}}</li>
+                <li>Description: {{this_trip.desc}}</li>
+                <li>Travel Date From: {{this_trip.travel_date_from}}</li>
+                <li>Travel Date To: {{this_trip.travel_date_to}}</li>
+                {% if request.session.user_id != this_trip.planned_by.id %}
+                <p><a href="/unjoinTrip/{{this_trip.id}}"><button>Unjoin</button></a>
+                <a href="/joinTrip/{{this_trip.id}}"><button>Join Trip</button></a>
+                {% endif %}
+                </p>
+            </ul>   
+            <ul class="listgroup">
+                <h3>Other Users Joining the Trip:</h3>
+                {% for user in this_trip.trips_joined.all  %}
+                <li>{{user.first_name}} {{user.last_name}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+
+
