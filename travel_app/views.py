@@ -108,14 +108,14 @@ def logout(request):
     del request.session['user_id']
     return redirect('/')
 
-def login(request):
-        user = User.objects.filter(email=request.POST['email'])
-        if user:
-            logged_user = user[0]
-            if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-                request.session['user_id'] = logged_user.id
-                return redirect('/main')
+def login(request):   
+    user = User.objects.filter(email=request.POST['email'])
+    if user:
+        logged_user = user[0]
+    if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
+        request.session['user_id'] = logged_user.id
+        return redirect('/main')
 
-        messages.error(request, "Invalid login")
+    messages.error(request, "Invalid login")
 
-        return redirect('/')
+    return redirect('/')
