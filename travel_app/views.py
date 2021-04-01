@@ -18,7 +18,7 @@ def register(request):
 
     this_user = User.objects.create(first_name = request.POST['first_name'], last_name = request.POST['last_name'], email = request.POST['email'], password = pw_hash)
     request.session['user_id'] = this_user.id
-    return redirect('/main')
+    return redirect('/')
 
 def main(request):
     if "user_id" not in request.session:
@@ -109,13 +109,13 @@ def logout(request):
     return redirect('/')
 
 def login(request):
-    user = User.objects.filter(email=request.POST['email'])
-    if user:
-        logged_user = user[0]
-        if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
-            request.session['user_id'] = logged_user.id
-            return redirect('/main')
+        user = User.objects.filter(email=request.POST['email'])
+        if user:
+            logged_user = user[0]
+            if bcrypt.checkpw(request.POST['password'].encode(), logged_user.password.encode()):
+                request.session['user_id'] = logged_user.id
+                return redirect('/main')
 
-    messages.error(request, "Invalid login")
+        messages.error(request, "Invalid login")
 
-    return redirect('/')
+        return redirect('/')
